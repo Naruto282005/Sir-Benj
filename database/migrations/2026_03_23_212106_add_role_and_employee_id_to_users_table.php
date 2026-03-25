@@ -9,16 +9,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('admin');
-            $table->foreignId('employee_id')->nullable()->constrained()->nullOnDelete();
+            // ❌ REMOVE role (already exists)
+
+            // ✅ keep only this if needed
+            $table->unsignedBigInteger('employee_id')->nullable()->after('id');
         });
     }
 
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('employee_id');
-            $table->dropColumn('role');
+            $table->dropColumn('employee_id');
         });
     }
 };
